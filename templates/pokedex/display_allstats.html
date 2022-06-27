@@ -1,0 +1,24 @@
+<a href={% url 'pokedex:list' %}>Go Back</a><br><br>
+{% block title %} Stats {% endblock %}
+
+{% block content %}
+<p>
+
+{% for i in stats %}
+
+<ul>
+    
+    <li><a href={% url 'pokedex:display_stats' i.id %}>{{ i.name}}</a></li>
+
+</ul>
+
+{% endfor %}
+
+</p>
+<br>
+<br>
+{% endblock %}
+
+{% block footer %}
+    <p></p>
+{% endblock %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Pokemon</title>
+</head>
+<body>
+    {% include "pokedex/filter_pokemon.html"%}
+    {% if pokemons %}
+        <p>Found {{ pokemons|length }} pokemon{{ pokemons|pluralize }}. </p>
+        <ul>
+            {% for pokemon in pokemons %}
+            <li>{{ pokemon }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No Type matched your search criteria.</p>
+    {% endif %}
+</body>
+</html>

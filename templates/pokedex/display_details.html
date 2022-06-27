@@ -1,0 +1,25 @@
+<a href={% url 'pokedex:list' %}>Go Back</a><br><br>
+{% block title %} Pokemon {% endblock %}
+
+{% block content %}
+<p>
+
+
+<ul>
+
+    <li><a>Name: {{ details.name }}</a></li><br>
+    <li><a>Height: {{ details.height }}</a></li><br>
+    <li><a>Weight: {{ details.weight }}</a></li><br>
+    <li><a>Type: {{ details.type }}</a></li><br>
+
+</ul>
+
+
+</p>
+<li><a href={% url 'pokedex:update_pokemon' details.id %}>Update Pokemon</a></li><br>
+<li><a href={% url 'pokedex:delete_pokemon' details.id %}>Delete Pokemon</a></li>
+{% endblock %}
+
+{% block footer %}
+    <p></p>
+{% endblock %}

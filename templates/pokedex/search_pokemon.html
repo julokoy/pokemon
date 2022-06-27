@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+    <li><a href={% url 'pokedex:list' %}>Go Back</a></li><br>
+    <h1>Enter Pokemon</h1>
+    {% if error %}
+    <p style="color: red;">Please Submit a search term.</p>
+    {% endif %}
+    <form action="" method="get">
+        <input type="text" name="q" placeholder="Search a pokemon. Eg. squirtle">
+        <input type="submit" value="Search">
+    </form>
+</body>
+</html>

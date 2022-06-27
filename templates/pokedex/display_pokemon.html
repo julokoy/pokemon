@@ -1,0 +1,33 @@
+<br><p>
+<a style="color: black;" href={% url 'pokedex:search_pokemon' %}>Search for a Pokemon</a>&nbsp; &nbsp; &nbsp; 
+<a style="color: black;" href={% url 'pokedex:filter_pokemon' %}>Search by a Pokemon Type</a>&nbsp; &nbsp; &nbsp; <br><br>
+</p>
+{% block title %} 
+List of all Pokemons:  
+{% endblock %}
+
+{% block content %}
+
+<p>
+
+{% for i in pokemons %}
+
+<ul>
+    
+    <li><a href={% url 'pokedex:pokemon_details' i.id %}>{{ i.name}}</a></li>
+
+</ul>
+
+{% endfor %}
+
+</p>
+<p>
+    <br>
+    To Add a Pokemon -> <a href={% url 'pokedex:add_pokemon' %}>Add a Pokemon</a><br><br> 
+    To Open Stat Tab -> <a href={% url 'pokedex:stats' %}>Display Stats</a><br><br>
+</p>
+{% endblock %}
+
+{% block footer %}
+    <p></p>
+{% endblock %}

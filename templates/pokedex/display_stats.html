@@ -1,0 +1,25 @@
+<a href={% url 'pokedex:list' %}>Go Back</a><br><br>
+{% block title %}{% endblock %}
+
+{% block content %}
+<p>
+<ul>
+    <h1>Stat for {{ stats.name }}: </h1>
+    <li><a>Name: {{ stats.name }}</a></li>
+    <li><a>effort: {{ stats.effort }}</a></li>
+    <li><a>Base Stat: {{ stats.base_stat }}</a></li>
+
+</ul>
+</p>
+<p>
+    <ul>
+        <h2>Pokemons under this stat: </h1>
+        <li>{{stats.pokemon}}</li>
+    </ul>
+    </p>
+
+{% endblock %}
+
+{% block footer %}
+    <p></p>
+{% endblock %}
