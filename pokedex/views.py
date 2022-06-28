@@ -1,12 +1,48 @@
+from webbrowser import get
 from django.shortcuts import render, redirect
 import requests
 from .models import Pokemon, Stat
-from .forms import DeletePokemonForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm
-from django.views.generic import View
+from .forms import DeletePokemonForm, PokemonLoginForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm
+from django.views.generic import View, ListView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from .decorators import unauthenticated_user, allowed_users
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 # Create your views here.
+class Login(ListView):
+    form_class = PokemonLoginForm
+    initial = {"key": "value"}
+    template_name = "pokedex/login.html"
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+
+        return render(
+            request, self.template_name,{"form": form}
+        )
+
+    def post(self, request, *args, **kwargs):
+        if  request.method == "POST":  # If the form has been submitted...
+            form = PokemonLoginForm(request.POST)  # A form bound to the POST data
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(username=username, password=password)
+            if form.is_valid():  # All validation rules pass
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return redirect("pokedex:list")
+                    else:
+                        return HttpResponse("Mali password")
+        else:
+            form = PokemonLoginForm()  # An unbound form
+
+        return render(request, self.template_name, {"form": form})
+
 class PokemonList(View):
     form_class = PokemonListForm
     initial = {"key": "value"}

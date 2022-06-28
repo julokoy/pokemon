@@ -1,6 +1,10 @@
 from pokedex.models import Stat, Pokemon
 from django import forms
 
+class PokemonLoginForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput)
+
 class PokemonForm(forms.ModelForm):
     class Meta:
         model = Pokemon
