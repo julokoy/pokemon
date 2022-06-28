@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
-            return render(request, "pokedex/display_pokemon.html")
+            return redirect("pokedex:list")
         else:
             return view_func(request, *args, **kwargs)
 

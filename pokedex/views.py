@@ -1,18 +1,19 @@
 from webbrowser import get
 from django.shortcuts import render, redirect
 import requests
-from .models import Pokemon, Stat
-from .forms import DeletePokemonForm, PokemonLoginForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm, PokemonRegisterForm
+from pokedex.models import Pokemon, Stat
+from pokedex.forms import DeletePokemonForm, PokemonLoginForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm, PokemonRegisterForm
 from django.views.generic import View, ListView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from .decorators import unauthenticated_user, allowed_users
+from pokedex.decorators import unauthenticated_user, allowed_users
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 
 # Create your views here.
+@method_decorator(unauthenticated_user, name="dispatch")
 class Login(ListView):
     form_class = PokemonLoginForm
     initial = {"key": "value"}
@@ -106,6 +107,8 @@ class PokemonDetail(View):
         form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {"details": pokemons})
 
+@method_decorator(login_required(login_url="pokedex:login"), name="dispatch")
+@method_decorator(allowed_users(allowed_roles=['admin', 'user']), name="dispatch")
 class AddPokemon(View):
     form_class = PokemonForm
     initial = {"key": "value"}
@@ -123,6 +126,8 @@ class AddPokemon(View):
 
         return render(request, self.template_name, {"form": form})
 
+@method_decorator(login_required(login_url="pokedex:login"), name="dispatch")
+@method_decorator(allowed_users(allowed_roles=['admin', 'user']), name="dispatch")
 class UpdatePokemon(View):
     form_class = UpdatePokemonForm
     initial = {"key": "value"}
@@ -142,6 +147,8 @@ class UpdatePokemon(View):
 
         return render(request, self.template_name, {"form": form})
 
+@method_decorator(login_required(login_url="pokedex:login"), name="dispatch")
+@method_decorator(allowed_users(allowed_roles=['admin', 'user']), name="dispatch")
 class DeletePokemon(View):
     form_class = DeletePokemonForm
     initial = {"key": "value"}
