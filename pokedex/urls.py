@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 app_name = "pokedex"
 urlpatterns = [
     path("login/", views.Login.as_view(), name="login"),
+    path("register/", views.Register.as_view(), name="register"),
     path("list/", views.PokemonList.as_view(), name="list"),
     path("list/stat", views.StatList.as_view(), name="stats"),
     path("details/<int:id>", views.PokemonDetail.as_view(), name="pokemon_details"),

@@ -2,7 +2,7 @@ from webbrowser import get
 from django.shortcuts import render, redirect
 import requests
 from .models import Pokemon, Stat
-from .forms import DeletePokemonForm, PokemonLoginForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm
+from .forms import DeletePokemonForm, PokemonLoginForm, StatDetailForm, StatListForm, PokemonDetailForm, PokemonForm, UpdatePokemonForm, PokemonListForm, PokemonRegisterForm
 from django.views.generic import View, ListView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -42,6 +42,31 @@ class Login(ListView):
             form = PokemonLoginForm()  # An unbound form
 
         return render(request, self.template_name, {"form": form})
+
+class Register(ListView):
+    form_class = PokemonRegisterForm
+    initial = {"key": "value"}
+    template_name = "pokedex/register.html"
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class
+
+        return render(
+            request, self.template_name,{"form": form}
+        )
+
+    def post(self, request, *args, **kwargs):
+        if request.method =="POST":
+            form = PokemonRegisterForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("pokedex:login")
+            else:
+                return redirect("pokedex:register")
+        form = PokemonRegisterForm()
+
+        return render(request, self.template_name ,{"form": form})
+
 
 class PokemonList(View):
     form_class = PokemonListForm
